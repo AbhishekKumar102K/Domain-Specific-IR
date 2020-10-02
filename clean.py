@@ -1,18 +1,25 @@
 import json
 
+f = open('raw_data.json', 'r')
+
+# data = json.loads(f.read())
+
 dic = {}
 ind = 0
 
-for line in open('raw_data.json', 'r'):
-	rdict = json.loads(line)
-	ind += 1
-	lis = []
-	lis.append(rdict["headline"])
-	lis.append(rdict['link'])
-	lis.append(rdict['short_description'])
-	dic[ind] = lis
+for i in open('raw_data.json', 'r'):
+    lol = json.loads(i)
+    ind += 1
+    lis = []
+    # print(type(lol))
+    # print(i)
+    # lol = dict(i)
+    lis.append(lol["headline"])
+    lis.append(lol['link'])
+    lis.append(lol['short_description'])
+    dic[ind] = lis
 
-json_obj = json.dumps(dic, indent = 4)
+f.close()
 
 with open('data.json', 'w') as write_file:
-	write_file.write(json_obj)
+    json.dump(dic, write_file)

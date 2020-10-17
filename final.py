@@ -4,14 +4,14 @@ from nltk.stem.porter import *
 import json
 import math
 import operator
-
+import time
 
 def stem(a):
 	p = PorterStemmer()
 	a = [p.stem(word) for word in a]
 	return a
-
 query = input()
+st_time = time.time()
 query_tokn = word_tokenize(query)
 query_tokn = [word for word in query_tokn if word.isalnum()]
 
@@ -137,3 +137,9 @@ for no in sorted_d.keys():
 	i+=1
 	if i==10:
 		break
+
+en_time = time.time()
+
+print(en_time - st_time)
+
+

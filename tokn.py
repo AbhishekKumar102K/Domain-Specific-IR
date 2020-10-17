@@ -3,35 +3,62 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import *
 
-def stem(a):
+"""
+	DESCRIPTION:
+		Used for Tokenizing and Stemming the cleaned data
+
+	Inputs:
+		data.json : json file containing the cleaned data
+
+	Methods:
+		stem(): Calling the PorterStemmer function which implements the stemming operation on the headlines
+				and short descriptions
+
+	Variables:
+		news: Dictionary containing the tokenized and stemmed form of the data. 
+
+"""
+
+#implements the Porter Stemmer algorithm and returns the stemmed doc
+def stem(doc):
 	p = PorterStemmer()
-	a = [p.stem(word) for word in a]
-	return a
+	
+	'''
+	Traversing through each word in the list and stemming it
+	into another list
+
+	'''
+	doc = [p.stem(word) for word in doc]  
+
+	return doc
+
+#loading the cleaned data
+json_data = open('data.json')
+
+data = json.load(json_data)
+
+news = {}
+
+for news_no in data:
+
+	cur_news = []
+
+	#Tokenizing the headline and short description
+	headline = word_tokenize(data[news_no][0].lower())
+	short_desc = word_tokenize(data[news_no][2].lower())
+
+	#headline and short_desc will be Lists containing the tokenized forms of the headline and short description 
+	#of the current news
+
+	#Stemming the headline and short description
+	cur_news.append(' '.join(stem(headline)))
+	cur_news.append(' '.join(stem(short_desc)))
+	
+	news[news_no] = cur_news
+
+json_data.close()
 
 
-
-f = open('data_before_tkn.json')
-load_dic = json.load(f)
-
-dic = {}
-
-unique = set()
-
-
-for ind in load_dic:
-    lis = []
-    hdline_punc = word_tokenize(load_dic[ind][0].lower())
-    # hdline_no_punc = [word for word in hdline_punc if word.isalnum()]
-    lis.append(' '.join(stem(hdline_punc)))
-
-    short_punc = word_tokenize(load_dic[ind][2].lower())
-    # short_no_punc = [word for word in short_punc if word.isalnum()]
-    lis.append(' '.join(stem(short_punc)))
-    dic[ind] = lis
-    if int(ind)%1000==0:
-    	print(ind)
-
-f.close()
-
+#Dumping the resultant dictionary into a json file
 with open('data_tkn.json', 'w') as write_file:
-    json.dump(dic, write_file)
+	json.dump(news, write_file)

@@ -11,6 +11,6 @@ nltk, json packages are required to run the program.
 
 The user can directly run the query.py and then enter the query to get the results.
 
-If the user wants to search using a new dataset(given the dataset is in the same format as raw_data.json), he has to run the following files in the given sequence - 
+If the user wants to search using a new dataset(given the dataset is in the same format as raw_data.json), one has to run the following files in the given sequence - 
 
 clean.py, tokn.py, inverted_ind.py, doc_length_normalized.py, query.py.
